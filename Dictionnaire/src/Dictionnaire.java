@@ -99,21 +99,20 @@ public class Dictionnaire {
     }
 
     public boolean rechercherMot(String mot) {
-    	return rechercherMotRecursivement(mot, this.getRacine());
+    	boolean tmp = rechercherMotRecursivement(mot, this.getRacine());
+    	return tmp;
     }
     
     private boolean rechercherMotRecursivement(String mot, Noeud noeud) {
-    	boolean result = false;
     	if(mot.isEmpty()) {
-    		if(noeud.getNbOccurence() >= 1)
-        		result = true;
+    		if(noeud.getNbOccurence() > 0)
+        		return true;
     	}else {
         	Noeud node = chercherEnfant(this.getRacine(), mot.charAt(0));
-        	if( node != null) {
-        		rechercherMotRecursivement(mot.substring(1), node);
-        	}
+        	if( node != null)
+        		return !rechercherMotRecursivement(mot.substring(1), node);
     	}
-    	return result;
+    	return false;
     }
     
     // Cherche un enfant du noeud donné avec une lettre donnée
