@@ -47,7 +47,10 @@ public class Fichier {
 		this.setLecteur();
 		ArrayList<String> fichier = new ArrayList<String>();
 		while((ligne = this.getLecteur().readLine()) != null) {
-			fichier.add(ligne);
+			String[] mots = ligne.split(" ");
+			for(String str : mots) {
+				fichier.add(str);
+			}
 		}
 		return fichier;
 	}
