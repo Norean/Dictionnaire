@@ -28,11 +28,14 @@ public class Traitement_Texte {
 		return minuscule;
 	}
 	
+	//Supprime tout les caractère spéciaux !
+	
+	
 	//recherche les mots dans le dictionnaire et met dans un ArrayList les mots que le dictionnaire ne connait pas
 	public ArrayList<String> rechercheNouveauMot(Dictionnaire dico){
 		ArrayList<String> liste =  new ArrayList<String>();
 		for(String mot : this.getTexte()) {
-			if(dico.rechercherMot(mot))
+			if(!dico.rechercherMot(mot))
 				liste.add(mot);
 		}
 		return liste;
