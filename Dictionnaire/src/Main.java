@@ -40,20 +40,24 @@ public class Main {
         			System.out.println("/*** Traitement en cours ... ***/");
         			int choix2 = 0;
         			while (choix2 != 3) {
-        				System.out.println("1 - choix du fichier\n2 - recherche de nouveau mot\n3 - exit :");
+        				System.out.println("1 - Definir le fichier a utiliser\n2 - recherche de nouveau mot\n3 - Sauvegarde du dictionnaire\n4 - exit :");
         				choix2 = scanner.nextInt();
         				switch (choix2) {
         					case 1:
         						System.out.println("Quel est le nom du fichier a traiter ?");
         						nom += scanner.next();
         						txt.setTexte(fichier.LireFichier(nom));
+        						txt.MajToMin();
+        						txt.SupprSpe();
         						break;
         					case 2:
-        						txt.setTexte(txt.MajToMin());
         						ArrayList<String> mots = txt.rechercheNouveauMot(dico);
         						for (String mot : mots) {
         				            System.out.println(mot);
         				        }
+        						break;
+        					case 3:
+        						fichier.SauvegarderDictionnaire(dico);
         						break;
         					default:
         						break;
