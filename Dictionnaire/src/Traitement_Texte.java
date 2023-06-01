@@ -20,16 +20,18 @@ public class Traitement_Texte {
 	/*** Methodes ***/
 	
 	// Met le contenu d'un texte en minuscule
-	public ArrayList<String> MajToMin() {
-		ArrayList<String> minuscule = new ArrayList<String>();
+	public void MajToMin() {
 		for(int i=0; i<getTexte().size(); i++) {
-			minuscule.add(getTexte().get(i).toLowerCase());
+			getTexte().get(i).toLowerCase();
 		}
-		return minuscule;
 	}
 	
 	//Supprime tout les caractère spéciaux !
-	
+	public void SupprSpe() {
+		for(String mot : this.getTexte()) {
+			mot.replaceAll("[^a-zA-Z0-9]", "");
+		}
+	}
 	
 	//recherche les mots dans le dictionnaire et met dans un ArrayList les mots que le dictionnaire ne connait pas
 	public ArrayList<String> rechercheNouveauMot(Dictionnaire dico){
