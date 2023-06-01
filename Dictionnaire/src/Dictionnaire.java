@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dictionnaire {
@@ -75,7 +76,12 @@ public class Dictionnaire {
 	
 	/*** Methodes Dictionnaires ***/
 	
-	// Ajoute un mot dans l'arbre avec le code POS depuis une HashMap
+	// Ajoute un nouveau mot dans l'arbre
+	public void ajouteNvxMot(String mot) {
+		ajouteNvxMotRecursif(this.getRacine(), mot);
+	}
+	
+	// Ajoute un mot dans l'arbre 
     public void ajouterMot(ArrayList<Object> ligne) {
     	ajouterMotRecursif(ligne, this.getRacine(), ligne.get(0).toString());
     }
@@ -96,6 +102,70 @@ public class Dictionnaire {
         }
         data.set(0, data.get(0).toString().substring(1));
         ajouterMotRecursif(data, enfant, Fmot);
+    }
+    
+    //Ajoute un nouveau mot dans l'arbre en ajoutant manuellement les données correspondantes
+    @SuppressWarnings("resource")
+	private void ajouteNvxMotRecursif(Noeud noeud, String mot) {
+    	ArrayList<Object> data = new ArrayList<Object>();
+    	Scanner scanner = new Scanner(System.in);
+    	System.out.println("Veuillez entrée les donnée du mot suivant : " + mot);
+    	System.out.println("Veuillez entré la phonologie du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le lemme du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le code grammatical du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le genre du mot : ");
+    	data.add(scanner.next().charAt(0));
+    	System.out.println("Veuillez entré le nombre du mot : ");
+    	data.add(scanner.next().charAt(0));
+    	System.out.println("Veuillez entré la fréquence du lemme selon le corpus de sous-titres(par million d'occurence) : ");
+    	data.add(Double.parseDouble(scanner.next()));
+    	System.out.println("Veuillez entré la fréquence du lemme selon le corpus de livres(par million d'occurence) : ");
+    	data.add(Double.parseDouble(scanner.next()));
+    	System.out.println("Veuillez entré la fréquence du mot selon le corpus de sous-titres(par million d'occurence) : ");
+    	data.add(Double.parseDouble(scanner.next()));
+    	System.out.println("Veuillez entré la fréquence du mot selon le corpus de livres(par million d'occurence) : ");
+    	data.add(Double.parseDouble(scanner.next()));
+    	System.out.println("Veuillez entré le infover, soit modes, temps, et personnes possibles pour les verbes du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le nombre d'homographe du mot : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le nombre d'homophone du mot : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré 1 si le mot est un lemme et 0 si il n'en es pas un : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le nombre de lettre du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le nombre de phonèmes du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré la structure orthographique du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré la structure phonologique du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le nombre de voisin orthographique du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le nombre de voisin phonologique du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le point d'unicité orthographique du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré le point d'unicité phonologique du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré la forme phonologique syllabée du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré le nombre de syllabe du mot  : ");
+    	data.add(scanner.nextInt());
+    	System.out.println("Veuillez entré la structure phonologique syllabée du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré la forme orthographique inversée du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré la forme phonologique inversée du mot : ");
+    	data.add(scanner.next());
+    	System.out.println("Veuillez entré la forme orthographique syllabée du mot : ");
+    	data.add(scanner.next());
+    	ajouterMotRecursif(data, noeud, mot);
+    	
     }
 
     public boolean rechercherMot(String mot) {
@@ -256,6 +326,32 @@ public class Dictionnaire {
         return node;
     }
 	
+    //Methode de sauvegarde du dictionnaire
+    public ArrayList<String> Save() {
+    	System.out.print("Debut de la sauvegarde !");
+    	StringBuilder data = new StringBuilder();
+    	ArrayList<String> dico = new ArrayList<String>();
+    	SaveRecursif(this.getRacine(),data);
+    	dico.add(data.toString());
+    	System.out.print("Fin de la sauvegarde !");
+    	return dico;
+    }
+    
+    private void SaveRecursif(Noeud noeud, StringBuilder data) {
+    	System.out.println("Sauvegarde en cours ...");
+        if (noeud.getNbOccurence() >= 1) {
+            data.append("|").append(noeud.getphono()).append("|").append(noeud.getLemme()).append("|").append(noeud.getCgram()).append("|").append(noeud.getGenre()).append("|")
+                    .append(noeud.getNombre()).append("|").append(noeud.getFreqlemfilms()).append("|").append(noeud.getFreqlemlivres()).append("|").append(noeud.getFreqfilms()).append("|")
+                    .append(noeud.getFreqlivres()).append("|").append(noeud.getInfover()).append("|").append(noeud.getNbhomogr()).append("|").append(noeud.getNbhomoph()).append("|")
+                    .append(noeud.getIslem()).append("|").append(noeud.getNblettre()).append("|").append(noeud.getNbphono()).append("|").append(noeud.getCvcv()).append("|")
+                    .append(noeud.getP_cvcv()).append("|").append(noeud.getVoisortho()).append("|").append(noeud.getVoisphono()).append("|").append(noeud.getPuortho()).append("|")
+                    .append(noeud.getPuphono()).append("|").append(noeud.getSyll()).append("|").append(noeud.getNbsyll()).append("|").append(noeud.getCv_cv()).append("|")
+                    .append(noeud.getOrthrenv()).append("|").append(noeud.getPhonrenv()).append("|").append(noeud.getOrthosyll());
+        }
+        for (Noeud enfant : noeud.getEnfants()) {
+            SaveRecursif(enfant, data);
+        }
+    }
 	/*** Override Dictionnaires ***/
 	
     /**** ----------------------------------------------------------------------------------------------------------- ****/
@@ -342,9 +438,7 @@ public class Dictionnaire {
 		/*** Getters et Setters Noeud ***/
         
 		public char getLettre() {return lettre;}
-		public void setLettre(char lettre) {this.lettre = lettre;}
 		public ArrayList<Noeud> getEnfants() {return enfants;}
-		public void setEnfants(ArrayList<Noeud> enfants) {this.enfants = enfants;}
 		public boolean isFinMot() {return finMot;}
 		public void setFinMot(boolean finMot) {this.finMot = finMot;}
 
@@ -353,7 +447,7 @@ public class Dictionnaire {
 		public void incrementOccurence() {this.nboccurence++;}
 		
 		public String getphono() {return phono;}
-		public void setphono(String phono) {phono = phono;}
+		public void setphono(String phono) {this.phono = phono;}
 		public String getLemme() {return lemme;}
 		public void setLemme(String lemme) {this.lemme = lemme;}
 		public String getCgram() {return cgram;}
@@ -408,10 +502,6 @@ public class Dictionnaire {
 		public void setOrthosyll(String orthosyll) {this.orthosyll = orthosyll;}
         
         /*** Methodes Noeud ***/
-		
-		public boolean estMot() {
-			return (this.getNbOccurence() > 0) ? true : false;
-		}
 		
         /*** Override Noeud ***/
         
